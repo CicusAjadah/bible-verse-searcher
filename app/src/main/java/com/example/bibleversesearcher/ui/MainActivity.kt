@@ -1,15 +1,12 @@
 package com.example.bibleversesearcher.ui
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.Toast
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
-import com.example.bibleversesearcher.R
 import com.example.bibleversesearcher.apiresponse.VerseResponse
 import com.example.bibleversesearcher.apiresponse.VersesItem
 import com.example.bibleversesearcher.databinding.ActivityMainBinding
@@ -37,7 +34,8 @@ class MainActivity : AppCompatActivity() {
         }
 
         binding.btnSearchSpecific.setOnClickListener {
-            Toast.makeText(this, "Belom dibikin :(", Toast.LENGTH_SHORT).show()
+            val searchSpecificIntent = Intent(this, SpecificVerseActivity::class.java)
+            startActivity(searchSpecificIntent)
         }
     }
 

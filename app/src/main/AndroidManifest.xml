@@ -13,9 +13,12 @@
         android:theme="@style/Theme.BibleVerseSearcher"
         tools:targetApi="31">
         <activity
+            android:name=".ui.SpecificVerseActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.MainActivity"
-            android:theme="@style/Base.Theme.BibleVerseSearcher"
-            android:exported="true">
+            android:exported="true"
+            android:theme="@style/Base.Theme.BibleVerseSearcher">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
