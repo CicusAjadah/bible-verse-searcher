@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">Bible Verse Searcher</string>
+    <string name="hint_name">Insert Kimi No Namaewa</string>
+    <string name="text_random_verse">RANDOMIZE VERSE</string>
+    <string name="text_search_other">SEARCH OTHER BIBLE VERSE</string>
+    <string name="text_welcome">Selamat Datang!</string>
+    <string name="hint_back">Go back</string>
+
+    <string name="quote"> Kalo gw sih ya gimana ya ya gitu deh, tapi gak gitu juga </string>
+    <string name="verse">- Orang Stress</string>
 </resources>
