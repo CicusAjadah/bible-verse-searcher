@@ -5,9 +5,11 @@ import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.view.MotionEvent
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.Spinner
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.bibleversesearcher.R
@@ -141,8 +143,8 @@ class SpecificVerseActivity : AppCompatActivity() {
     private fun createTypeSpinner(){
         types = list.map { it.type }.distinct()
 
-        val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, types)
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        val adapter = ArrayAdapter(this, R.layout.spinner_item_layout, types)
+        adapter.setDropDownViewResource(R.layout.spinner_dropdown_item_layout)
 
         binding.spinnerType.adapter = adapter
     }
@@ -155,8 +157,8 @@ class SpecificVerseActivity : AppCompatActivity() {
 
         bookNames = filteredList.map { it.bookName }
 
-        val filteredAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, bookNames)
-        filteredAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        val filteredAdapter = ArrayAdapter(this, R.layout.spinner_item_layout, bookNames)
+        filteredAdapter.setDropDownViewResource(R.layout.spinner_dropdown_item_layout)
 
         // Set the adapter to the book spinner
         binding.spinnerBook.adapter = filteredAdapter
@@ -171,8 +173,8 @@ class SpecificVerseActivity : AppCompatActivity() {
         if (chapter != null) {
             numberChapters = (1..chapter!!).toList()
 
-            val filteredAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, numberChapters)
-            filteredAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+            val filteredAdapter = ArrayAdapter(this, R.layout.spinner_item_layout, numberChapters)
+            filteredAdapter.setDropDownViewResource(R.layout.spinner_dropdown_item_layout)
 
             // Set the adapter to the chapter spinner
             binding.spinnerChapter.adapter = filteredAdapter
@@ -185,8 +187,8 @@ class SpecificVerseActivity : AppCompatActivity() {
      * Create Spinner for Verse
      */
     private fun createVerseSpinner() {
-        val filteredAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, numberVerse)
-        filteredAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        val filteredAdapter = ArrayAdapter(this, R.layout.spinner_item_layout, numberVerse)
+        filteredAdapter.setDropDownViewResource(R.layout.spinner_dropdown_item_layout)
 
         // Set the adapter to the verse spinner
         binding.spinnerVerse.adapter = filteredAdapter
