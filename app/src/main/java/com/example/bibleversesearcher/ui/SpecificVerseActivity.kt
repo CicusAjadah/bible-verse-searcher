@@ -16,11 +16,13 @@ import com.example.bibleversesearcher.apiresponse.VersesItem
 import com.example.bibleversesearcher.databinding.ActivitySpecificVerseBinding
 import com.example.bibleversesearcher.dataclass.BibleVerse
 import com.example.bibleversesearcher.retrofit.ApiConfig
-import com.example.bibleversesearcher.ui.MainActivity.Companion
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
+/**
+ * Created by CicusAjadah 12/7/2024
+ */
 class SpecificVerseActivity : AppCompatActivity() {
 
     companion object {
@@ -197,6 +199,7 @@ class SpecificVerseActivity : AppCompatActivity() {
         val call = ApiConfig.getApiService().getSpecificVerse(input)
 
         call.enqueue(object : Callback<VerseResponse> {
+            @SuppressLint("ResourceAsColor")
             override fun onResponse(call: Call<VerseResponse>, response: Response<VerseResponse>) {
                 showLoading(false)
                 if (response.isSuccessful) {
@@ -206,7 +209,9 @@ class SpecificVerseActivity : AppCompatActivity() {
                         displayVerse(specificVerse)
                     }
                 } else {
-                    showLoading(true)
+                    showLoading(false)
+                    binding.tvQuote.text = "I think the verse you search are not available."
+                    binding.tvVerse.text = "Please re-insert another search"
                     Log.e(TAG, "onFailure: ${response.message()}")
                 }
             }

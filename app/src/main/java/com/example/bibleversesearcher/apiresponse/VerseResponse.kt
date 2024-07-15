@@ -2,6 +2,9 @@ package com.example.bibleversesearcher.apiresponse
 
 import com.google.gson.annotations.SerializedName
 
+/**
+ * Created by CicusAjadah 12/7/2024
+ */
 data class VerseResponse(
 
 	@field:SerializedName("reference")

@@ -6,6 +6,9 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
+/**
+ * Created by CicusAjadah 12/7/2024
+ */
 class ApiConfig {
     companion object{
         fun getApiService(): ApiService {

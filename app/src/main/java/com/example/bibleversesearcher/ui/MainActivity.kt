@@ -15,6 +15,9 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
+/**
+ * Created by CicusAjadah 12/7/2024
+ */
 class MainActivity : AppCompatActivity() {
 
     companion object {
