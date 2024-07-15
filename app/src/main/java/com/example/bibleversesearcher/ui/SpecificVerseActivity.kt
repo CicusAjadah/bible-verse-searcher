@@ -1,14 +1,25 @@
 package com.example.bibleversesearcher.ui
 
+import android.annotation.SuppressLint
 import android.os.Bundle
+import android.util.Log
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.bibleversesearcher.R
+import com.example.bibleversesearcher.apiresponse.VerseResponse
+import com.example.bibleversesearcher.apiresponse.VersesItem
 import com.example.bibleversesearcher.databinding.ActivitySpecificVerseBinding
 import com.example.bibleversesearcher.dataclass.BibleVerse
+import com.example.bibleversesearcher.retrofit.ApiConfig
+import com.example.bibleversesearcher.ui.MainActivity.Companion
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class SpecificVerseActivity : AppCompatActivity() {
 
@@ -21,6 +32,7 @@ class SpecificVerseActivity : AppCompatActivity() {
     private lateinit var bookNames: List<String>
     private lateinit var numberChapters: List<Int>
     private val numberVerse = (1..176).toList()
+    private var selectedType: String? = null
     private var selectedBookNames: String? = null
     private var selectedChapter: String? = null
     private var selectedVerse: String? = null
@@ -30,13 +42,17 @@ class SpecificVerseActivity : AppCompatActivity() {
         binding = ActivitySpecificVerseBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+
+
         list.addAll(getListBibles())
+        showLoading(false)
 
         createTypeSpinner()
 
         binding.spinnerType.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
-                createBookSpinner(types[p2])
+                selectedType = types[p2]
+                createBookSpinner(selectedType!!)
             }
 
             override fun onNothingSelected(p0: AdapterView<*>?) {
@@ -77,8 +93,23 @@ class SpecificVerseActivity : AppCompatActivity() {
         }
 
         binding.btnSearch.setOnClickListener{
-            displaySelectedValues()
+            showLoading(true)
+            getVerse("$selectedBookNames$selectedChapter:$selectedVerse")
         }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        val inflater = menuInflater
+        inflater.inflate(R.menu.menu_back, menu)
+        return super.onCreateOptionsMenu(menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean  = when(item.itemId){
+        R.id.menuBack -> {
+            finish()
+            true
+        }
+        else -> true
     }
 
     private fun displaySelectedValues() {
@@ -157,5 +188,49 @@ class SpecificVerseActivity : AppCompatActivity() {
 
         // Set the adapter to the verse spinner
         binding.spinnerVerse.adapter = filteredAdapter
+    }
+
+    /**
+     *
+     */
+    private fun getVerse(input : String) {
+        val call = ApiConfig.getApiService().getSpecificVerse(input)
+
+        call.enqueue(object : Callback<VerseResponse> {
+            override fun onResponse(call: Call<VerseResponse>, response: Response<VerseResponse>) {
+                showLoading(false)
+                if (response.isSuccessful) {
+                    val bibleResponse = response.body()
+                    bibleResponse?.let {
+                        val specificVerse = it.verses[0]
+                        displayVerse(specificVerse)
+                    }
+                } else {
+                    showLoading(true)
+                    Log.e(TAG, "onFailure: ${response.message()}")
+                }
+            }
+            override fun onFailure(call: Call<VerseResponse>, t: Throwable) {
+                showLoading(false)
+                Log.e(TAG, "onFailure: ${t.message}")
+            }
+        })
+    }
+
+    /**
+     *
+     */
+    @SuppressLint("SetTextI18n")
+    private fun displayVerse(verse: VersesItem) {
+        binding.tvQuote.text = verse.text
+        binding.tvVerse.text = "$selectedType of $selectedBookNames $selectedChapter:$selectedVerse"
+    }
+
+    private fun showLoading(isLoading: Boolean) {
+        if (isLoading) {
+            binding.progressBar.visibility = View.VISIBLE
+        } else {
+            binding.progressBar.visibility = View.GONE
+        }
     }
 }

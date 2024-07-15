@@ -5,10 +5,10 @@ import retrofit2.Call
 import retrofit2.http.*
 
 interface ApiService {
-    @GET("?random=verse")
+    @GET("/?random=verse")
     fun getRandomBibleVerse(): Call<VerseResponse>
 
-    @GET("{specificVerse}")
+    @GET("/{specificVerse}")
     fun getSpecificVerse(
         @Path("specificVerse") specificVerse: String
     ): Call<VerseResponse>
